@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生日快乐！</title>
-    <!-- Tailwind CSS -->
+    <title>生日快乐!</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
     
-    <!-- 配置 Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -17,146 +15,42 @@
                     colors: {
                         primary: '#FF69B4',
                         secondary: '#FFD700',
+                        accent: '#FF4500',
+                        dark: '#333333',
                     },
                     fontFamily: {
                         dancing: ['Dancing Script', 'cursive'],
+                        ma: ['Ma Shan Zheng', 'cursive'],
                     },
                 }
             }
         }
     </script>
     
-    <!-- 自定义工具类 -->
     <style type="text/tailwindcss">
         @layer utilities {
             .text-shadow {
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             }
             .animate-pulse-slow {
-                animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+                animation: pulse 0.5s infinite alternate;
             }
-        }
-    </style>
-    
-    <!-- 导入 Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="min-h-screen bg-gradient-to-br from-pink-300 to-yellow-300 flex flex-col items-center justify-center p-4 overflow-hidden">
-    <!-- 标题 -->
-    <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-dancing font-bold text-white text-shadow animate-pulse-slow mb-8">
-        Happy Birthday!
-    </h1>
-    
-    <!-- 祝福语卡片 -->
-    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-xl max-w-md w-full mb-8 transform transition-all hover:scale-105">
-        <p id="message" class="text-[clamp(1.2rem,3vw,1.8rem)] font-medium text-gray-800 text-center">
-            愿你的生日如璀璨星辰般闪耀，幸福永远与你相伴！
-        </p>
-    </div>
-    
-    <!-- 生日图片 -->
-    <div class="relative rounded-xl overflow-hidden shadow-2xl mb-8 max-w-md w-full aspect-video transform transition-all hover:scale-105 hover:rotate-1">
-        <img id="birthdayImage" src="https://picsum.photos/800/600?random=1" alt="生日图片" 
-             class="w-full h-full object-cover">
-    </div>
-    
-    <!-- 互动提示 -->
-    <div class="text-white text-shadow text-center mb-4">
-        <p>点击任意位置更换祝福语 🎉</p>
-        <p class="text-sm mt-2">移动鼠标创造生日蛋糕 ✨</p>
-    </div>
-    
-    <!-- 脚本 -->
-    <script>
-        // 祝福语数组
-        const messages = [
-            '愿你的生日如璀璨星辰般闪耀，幸福永远与你相伴！',
-            '在这个特别的日子里，祝你生日快乐，梦想成真！',
-            '生日快乐！愿生活的每一天都充满阳光和欢笑。',
-            '愿你的生日是一场奇妙的冒险，快乐永不止步！',
-            '祝你生日快乐，岁岁年年都有今朝的快乐！',
-            '生日快乐！愿你的未来充满无限可能和惊喜。',
-            '愿你的生活像彩虹一样绚丽多彩，生日快乐！',
-            '生日快乐！愿你的人生旅程充满爱与美好。',
-            '在这个特别的日子里，送上我最真挚的祝福，生日快乐！',
-            '愿你的生日如春日阳光般温暖，如夏日花朵般绚烂。'
-        ];
-        
-        // 飘落元素数组
-        const fallingElements = ['💖', '🎈', '⭐', '🍰', '🎉', '✨', '🥳', '🎂'];
-        
-        // DOM 元素
-        const messageElement = document.getElementById('message');
-        const birthdayImage = document.getElementById('birthdayImage');
-        
-        // 点击更换祝福语
-        document.addEventListener('click', () => {
-            const randomIndex = Math.floor(Math.random() * messages.length);
-            messageElement.textContent = messages[randomIndex];
-            
-            // 添加祝福语变化动画
-            messageElement.classList.add('opacity-0', 'scale-90');
-            setTimeout(() => {
-                messageElement.classList.remove('opacity-0', 'scale-90');
-            }, 10);
-        });
-        
-        // 创建飘落元素
-        function createFallingElement() {
-            const element = document.createElement('div');
-            element.classList.add('fixed', 'pointer-events-none');
-            element.style.fontSize = `${Math.random() * 24 + 16}px`;
-            element.style.left = `${Math.random() * 100}vw`;
-            element.style.top = `-50px`;
-            element.style.animation = `fall ${Math.random() * 5 + 3}s linear forwards`;
-            element.textContent = fallingElements[Math.floor(Math.random() * fallingElements.length)];
-            
-            document.body.appendChild(element);
-            
-            // 动画结束后移除元素
-            setTimeout(() => {
-                element.remove();
-            }, 8000);
-        }
-        
-        // 添加飘落动画样式
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fall {
-                to {
-                    transform: translateY(calc(100vh + 50px));
-                }
+            .falling {
+                position: absolute;
+                top: -50px;
+                animation: fall linear infinite;
             }
-        `;
-        document.head.appendChild(style);
-        
-        // 定时创建飘落元素
-        setInterval(createFallingElement, 300);
-        
-        // 鼠标移动创建蛋糕元素
-        document.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.9) { // 降低生成频率
-                const cake = document.createElement('div');
-                cake.classList.add('fixed', 'pointer-events-none');
-                cake.style.fontSize = '24px';
-                cake.style.left = `${e.clientX}px`;
-                cake.style.top = `${e.clientY}px`;
-                cake.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-                cake.textContent = '🍰';
-                
-                document.body.appendChild(cake);
-                
-                setTimeout(() => {
-                    cake.remove();
-                }, 5000);
+            .page-transition {
+                transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
             }
-        });
-        
-        // 页面加载完成后添加淡入动画
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add('opacity-100');
-            document.body.classList.remove('opacity-0');
-        });
-    </script>
-</body>
-</html>    
+            .bg-gradient-birthday {
+                background: radial-gradient(circle, #ffb6c1, #ffd700);
+            }
+            .watermark {
+                position: absolute;
+                top: 120px;
+                left: 50%;
+                transform: translateX(-50%);
+                color: rgba(255, 255, 255, 0.8);
+                font-size: 18px;
+                font-family: 'Ma Shan Zheng', cursive
