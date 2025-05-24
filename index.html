@@ -53,4 +53,346 @@
                 transform: translateX(-50%);
                 color: rgba(255, 255, 255, 0.8);
                 font-size: 18px;
-                font-family: 'Ma Shan Zheng', cursive
+                font-family: 'Ma Shan Zheng', cursive;
+                letter-spacing: 2px;
+                user-select: none;
+                z-index: 10;
+                text-align: center;
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        
+        @keyframes fall {
+            to {
+                top: 100vh;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-hidden bg-dark text-white">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-xl font-dancing text-white">生日快乐</div>
+            <div class="flex space-x-4">
+                <button class="page-btn px-3 py-1 rounded-full bg-primary/70 hover:bg-primary transition-all" data-page="1">
+                    <i class="fa fa-home mr-1"></i>首页
+                </button>
+                <button class="page-btn px-3 py-1 rounded-full bg-secondary/70 hover:bg-secondary transition-all" data-page="2">
+                    <i class="fa fa-heart mr-1"></i>祝福
+                </button>
+                <button class="page-btn px-3 py-1 rounded-full bg-accent/70 hover:bg-accent transition-all" data-page="3">
+                    <i class="fa fa-gift mr-1"></i>礼物
+                </button>
+                <button class="page-btn px-3 py-1 rounded-full bg-white/70 hover:bg-white text-dark transition-all" data-page="4">
+                    <i class="fa fa-camera mr-1"></i>相册
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 第1页：欢迎页 -->
+    <div id="page-1" class="page absolute inset-0 bg-gradient-birthday flex flex-col items-center justify-center page-transition">
+        <!-- 下移的潜水印 -->
+        <div class="watermark">网站创立者：苏国淮</div>
+        
+        <div class="text-center mt-20">
+            <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-dancing text-white text-shadow animate-pulse-slow mb-6">
+                Happy Birthday!
+            </h1>
+            <p class="text-[clamp(1.2rem,3vw,1.8rem)] font-ma text-white text-shadow mb-8">
+                亲爱的妈妈，祝您生日快乐
+            </p>
+            <button id="start-btn" class="px-8 py-4 bg-white text-primary rounded-full font-bold text-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
+                <i class="fa fa-arrow-right mr-2"></i>开始探索
+            </button>
+        </div>
+        
+        <!-- 飘落元素 -->
+        <div id="falling-container-1" class="absolute inset-0 pointer-events-none"></div>
+    </div>
+
+    <!-- 第2页：祝福页 -->
+    <div id="page-2" class="page absolute inset-0 bg-gradient-to-br from-pink-500 to-yellow-400 flex flex-col items-center justify-center page-transition opacity-0 translate-x-full">
+        <div class="bg-white/20 backdrop-blur-xl rounded-2xl p-8 max-w-2xl w-full mx-4 shadow-2xl">
+            <h2 class="text-[clamp(2rem,6vw,3.5rem)] font-dancing text-white text-shadow mb-6 text-center">
+                给妈妈的生日祝福
+            </h2>
+            <div id="message-container" class="bg-white/30 rounded-xl p-6 mb-8">
+                <p id="birthday-message" class="text-[clamp(1.2rem,3vw,1.8rem)] font-ma text-dark text-center">
+                    亲爱的妈妈，祝您生日快乐！愿您的生活永远充满阳光和欢笑。
+                </p>
+            </div>
+            <div class="flex justify-center">
+                <button id="change-message-btn" class="px-6 py-3 bg-primary text-white rounded-full font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
+                    <i class="fa fa-refresh mr-2"></i>更换祝福
+                </button>
+            </div>
+        </div>
+        
+        <!-- 飘落元素 -->
+        <div id="falling-container-2" class="absolute inset-0 pointer-events-none"></div>
+    </div>
+
+    <!-- 第3页：礼物页 -->
+    <div id="page-3" class="page absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 flex flex-col items-center justify-center page-transition opacity-0 translate-x-full">
+        <div class="text-center">
+            <h2 class="text-[clamp(2rem,6vw,3.5rem)] font-dancing text-white text-shadow mb-6">
+                给妈妈的惊喜
+            </h2>
+            <div id="gift-container" class="relative w-64 h-64 mx-auto mb-8 cursor-pointer">
+                <div id="gift-box" class="absolute inset-0 bg-red-500 rounded-lg shadow-xl transform transition-transform hover:scale-105">
+                    <div class="absolute top-1/4 left-0 right-0 h-12 bg-yellow-400"></div>
+                    <div class="absolute top-0 bottom-0 left-1/2 w-12 bg-yellow-400"></div>
+                    <div id="gift-ribbon" class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-24 h-24">
+                        <div class="w-full h-full relative">
+                            <div class="absolute top-0 left-0 w-12 h-12 bg-yellow-400 rounded-full transform -rotate-45 translate-x-3"></div>
+                            <div class="absolute top-0 right-0 w-12 h-12 bg-yellow-400 rounded-full transform rotate-45 -translate-x-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <img id="gift-image" src="https://picsum.photos/400/400" alt="给妈妈的礼物" class="absolute inset-0 w-full h-full object-cover rounded-lg opacity-0 transition-opacity duration-500">
+            </div>
+            <p id="gift-message" class="text-[clamp(1.2rem,3vw,1.8rem)] font-ma text-white text-shadow mb-8">
+                亲爱的妈妈，点击礼物盒查看惊喜
+            </p>
+        </div>
+        
+        <!-- 飘落元素 -->
+        <div id="falling-container-3" class="absolute inset-0 pointer-events-none"></div>
+    </div>
+
+    <!-- 第4页：相册页 -->
+    <div id="page-4" class="page absolute inset-0 bg-gradient-to-br from-blue-500 to-teal-400 flex flex-col items-center justify-center page-transition opacity-0 translate-x-full">
+        <h2 class="text-[clamp(2rem,6vw,3.5rem)] font-dancing text-white text-shadow mb-6">
+            与妈妈的美好回忆
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl w-full mx-4">
+            <div class="photo-card bg-white/20 backdrop-blur-md rounded-xl overflow-hidden shadow-lg transform transition-transform hover:scale-105">
+                <img src="https://picsum.photos/400/300?random=1" alt="与妈妈的回忆1" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <p class="font-ma text-dark">与妈妈的美好时光</p>
+                </div>
+            </div>
+            <div class="photo-card bg-white/20 backdrop-blur-md rounded-xl overflow-hidden shadow-lg transform transition-transform hover:scale-105">
+                <img src="https://picsum.photos/400/300?random=2" alt="与妈妈的回忆2" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <p class="font-ma text-dark">妈妈的笑容是最美的风景</p>
+                </div>
+            </div>
+            <div class="photo-card bg-white/20 backdrop-blur-md rounded-xl overflow-hidden shadow-lg transform transition-transform hover:scale-105">
+                <img src="https://picsum.photos/400/300?random=3" alt="与妈妈的回忆3" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <p class="font-ma text-dark">珍贵的家庭时刻</p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-8 bg-white/20 backdrop-blur-md rounded-xl p-4 max-w-xl w-full">
+            <p class="font-ma text-dark text-center">
+                亲爱的妈妈，感谢您为我做的一切。祝您生日快乐，健康长寿！
+            </p>
+        </div>
+        
+        <!-- 飘落元素 -->
+        <div id="falling-container-4" class="absolute inset-0 pointer-events-none"></div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="fixed bottom-0 left-0 right-0 z-40 bg-white/10 backdrop-blur-md py-2 text-center text-white/70 text-sm">
+        <p>✨ 妈妈，生日快乐! ✨</p>
+    </footer>
+
+    <script>
+        // 给妈妈的祝福语列表
+        const messages = [
+            '亲爱的妈妈，祝您生日快乐！愿您的生活永远充满阳光和欢笑。',
+            '妈妈，感谢您一直以来的爱和支持。生日快乐，健康长寿！',
+            '在您生日这一天，愿您的心情如春日阳光般温暖，生活如夏日花朵般绚烂。',
+            '妈妈，您是我生命中最珍贵的人。祝您生日快乐，幸福安康！',
+            '愿您的生日如璀璨星辰般闪耀，愿您的每一天都充满喜悦和美好。',
+            '妈妈，您的爱如春风化雨，滋润着我的心田。生日快乐！',
+            '亲爱的妈妈，祝您生日快乐！愿您的晚年生活充满宁静和满足。',
+            '妈妈，您的笑容是我最大的安慰。祝您生日快乐，笑口常开！',
+            '在这个特别的日子里，向世界上最伟大的妈妈送上最真挚的祝福：生日快乐！',
+            '妈妈，您是我生命中的灯塔。祝您生日快乐，身体健康，一切顺心！'
+        ];
+        
+        // 下落元素列表（按页面分类）
+        const fallingItems = {
+            1: ['💖', '🎈', '⭐', '🍰', '🎉', '🎂', '🌟', '💝'],
+            2: ['💌', '🌸', '💐', '💝', '💞', '💘', '💓', '💕'],
+            3: ['🎁', '💎', '🌟', '✨', '🌈', '🎉', '🎊', '💫'],
+            4: ['📸', '🎞️', '📽️', '🎬', '🌟', '✨', '💫', '🎭']
+        };
+        
+        // DOM 元素
+        const pages = document.querySelectorAll('.page');
+        const pageBtns = document.querySelectorAll('.page-btn');
+        const startBtn = document.getElementById('start-btn');
+        const birthdayMessage = document.getElementById('birthday-message');
+        const changeMessageBtn = document.getElementById('change-message-btn');
+        const giftContainer = document.getElementById('gift-container');
+        const giftBox = document.getElementById('gift-box');
+        const giftImage = document.getElementById('gift-image');
+        const giftMessage = document.getElementById('gift-message');
+        
+        // 页面切换
+        function showPage(pageNum) {
+            pages.forEach((page, index) => {
+                const currentPageNum = index + 1;
+                if (currentPageNum === pageNum) {
+                    page.classList.remove('opacity-0', 'translate-x-full', 'translate-x-[-100%]');
+                    page.classList.add('opacity-100', 'translate-x-0');
+                    
+                    // 开始该页面的飘落动画
+                    startFallingAnimation(currentPageNum);
+                } else if (currentPageNum < pageNum) {
+                    page.classList.remove('opacity-100', 'translate-x-0', 'translate-x-full');
+                    page.classList.add('opacity-0', 'translate-x-[-100%]');
+                    
+                    // 停止该页面的飘落动画
+                    stopFallingAnimation(currentPageNum);
+                } else {
+                    page.classList.remove('opacity-100', 'translate-x-0', 'translate-x-[-100%]');
+                    page.classList.add('opacity-0', 'translate-x-full');
+                    
+                    // 停止该页面的飘落动画
+                    stopFallingAnimation(currentPageNum);
+                }
+            });
+        }
+        
+        // 飘落动画相关
+        let fallingIntervals = {};
+        
+        function startFallingAnimation(pageNum) {
+            // 清除之前的动画
+            if (fallingIntervals[pageNum]) {
+                clearInterval(fallingIntervals[pageNum]);
+            }
+            
+            const container = document.getElementById(`falling-container-${pageNum}`);
+            container.innerHTML = '';
+            
+            // 创建新的飘落元素
+            fallingIntervals[pageNum] = setInterval(() => {
+                if (pages[pageNum - 1].classList.contains('opacity-100')) {
+                    createFallingElement(container, pageNum);
+                }
+            }, 500);
+        }
+        
+        function stopFallingAnimation(pageNum) {
+            if (fallingIntervals[pageNum]) {
+                clearInterval(fallingIntervals[pageNum]);
+                fallingIntervals[pageNum] = null;
+                
+                const container = document.getElementById(`falling-container-${pageNum}`);
+                container.innerHTML = '';
+            }
+        }
+        
+        function createFallingElement(container, pageNum) {
+            const element = document.createElement('span');
+            element.classList.add('falling');
+            element.textContent = fallingItems[pageNum][Math.floor(Math.random() * fallingItems[pageNum].length)];
+            
+            // 随机位置和动画时间
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.animationDuration = Math.random() * 5 + 3 + 's';
+            element.style.fontSize = Math.random() * 24 + 16 + 'px';
+            
+            container.appendChild(element);
+            
+            // 自动移除元素
+            setTimeout(() => {
+                if (element.parentNode === container) {
+                    container.removeChild(element);
+                }
+            }, 8000);
+        }
+        
+        // 事件监听
+        pageBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const pageNum = parseInt(btn.getAttribute('data-page'));
+                showPage(pageNum);
+            });
+        });
+        
+        startBtn.addEventListener('click', () => {
+            showPage(2);
+        });
+        
+        changeMessageBtn.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            const message = messages[randomIndex];
+            
+            // 添加过渡效果
+            birthdayMessage.style.opacity = 0;
+            setTimeout(() => {
+                birthdayMessage.textContent = message;
+                birthdayMessage.style.opacity = 1;
+            }, 300);
+        });
+        
+        // 礼物盒点击事件
+        let giftOpened = false;
+        giftContainer.addEventListener('click', () => {
+            if (!giftOpened) {
+                // 打开礼物盒动画
+                giftBox.style.transform = 'translateY(-100%) rotate(15deg)';
+                giftBox.style.opacity = '0';
+                giftImage.style.opacity = '1';
+                giftMessage.textContent = '亲爱的妈妈，祝您生日快乐！愿您永远健康快乐，我们永远爱您！';
+                
+                // 显示庆祝动画
+                const container = document.getElementById('falling-container-3');
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        createFallingElement(container, 3);
+                    }, i * 100);
+                }
+                
+                giftOpened = true;
+            }
+        });
+        
+        // 鼠标移动效果
+        document.addEventListener('mousemove', (e) => {
+            const currentPage = Array.from(pages).findIndex(page => 
+                page.classList.contains('opacity-100')
+            ) + 1;
+            
+            if (currentPage === 1 || currentPage === 2) { // 只在第1页和第2页显示鼠标效果
+                if (Math.random() > 0.9) { // 降低生成频率
+                    const container = document.getElementById(`falling-container-${currentPage}`);
+                    const cake = document.createElement('span');
+                    cake.classList.add('falling');
+                    cake.textContent = '🍰';
+                    
+                    cake.style.left = e.clientX + 'px';
+                    cake.style.top = e.clientY + 'px';
+                    cake.style.animationDuration = Math.random() * 3 + 2 + 's';
+                    cake.style.fontSize = Math.random() * 16 + 12 + 'px';
+                    
+                    container.appendChild(cake);
+                    
+                    setTimeout(() => {
+                        if (cake.parentNode === container) {
+                            container.removeChild(cake);
+                        }
+                    }, 5000);
+                }
+            }
+        });
+        
+        // 初始化显示第一页
+        showPage(1);
+    </script>
+</body>
+</html>    
